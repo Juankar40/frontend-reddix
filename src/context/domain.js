@@ -1,0 +1,1 @@
+export const domain = 'https://backend-reddix.onrender.com/'
