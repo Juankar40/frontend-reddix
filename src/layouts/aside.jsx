@@ -4,7 +4,7 @@ function Aside() {
   return (
     <>
       <div className="flex">
-        <aside className="aside">
+        <aside className="aside" id="asideMenu">
           <nav className="aside-nav">
             <p className="aside-title">TOPICS</p>
             <a href="#" className="aside-links">Games</a>
@@ -13,25 +13,6 @@ function Aside() {
             <a href="#" className="aside-links">Technology</a>
             <a href="#" className="aside-links">Pop Culture</a>
             <a href="#" className="aside-links">Movies & TV</a>
-          </nav>
-          <nav className="aside-nav">
-            <p className="aside-title">COMMUNITIES</p>
-            <a href="#" className="aside-links flex items-center space-x-2">
-              <Plus className="w-4 h-4" />
-              <span>Create a community</span>
-            </a>
-            <a href="#" className="aside-links">
-              <img src="/communities/announcements.png" alt="announcements" className="w-6 rounded-full mr-2 float-left" />
-              r/announcements
-            </a>
-            <a href="#" className="aside-links">
-              <img src="/communities/Asi_va_Espana.png" alt="announcements" className="w-6 rounded-full mr-2 float-left" />
-              r/Asi_va_Espana
-            </a>
-            <a href="#" className="aside-links">
-              <img src="/communities/spain.jpg" alt="announcements" className="w-6 rounded-full mr-2 float-left" />
-              r/spain
-            </a>
           </nav>
           <nav className="aside-nav">
             <p className="aside-title">RESOURCES</p>
