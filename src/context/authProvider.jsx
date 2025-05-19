@@ -33,6 +33,7 @@ const AuthProvider = ({ children }) => {
             setIsAuth(false);
             setMessage("Logged out successfully");
             setIsError(false);
+            window.location.reload()
         } catch (error) {
             setMessage("Error during logout");
             setIsError(true);
