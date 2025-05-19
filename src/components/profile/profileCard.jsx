@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Plus, Trash } from "lucide-react";
-
+import { domain } from "../../context/domain";
 function ProfileCard({ user, deleteAccount, isOwner }) {
   const [copied, setCopied] = useState(false);
 
@@ -43,6 +43,7 @@ function ProfileCard({ user, deleteAccount, isOwner }) {
           <p>Downvotes</p>
         </div>
       </div>
+      
 
       {isOwner && (
         <>
@@ -53,9 +54,17 @@ function ProfileCard({ user, deleteAccount, isOwner }) {
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <img
-                  className="w-8 rounded-full"
-                  src="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_5.png"
-                  alt="Avatar"
+                  className="w-8 h-8 rounded-full"
+                  src={
+                    user.profileImage
+                      ? `${domain}uploads/${user.profileImage}`
+                      : "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_5.png"
+                  }
+                  onError={(e) => {
+                    e.target.onerror = null; // evita bucle infinito si falla la imagen por defecto
+                    e.target.src = "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_5.png";
+                  }}
+                  alt=""
                 />
                 <div>
                   <p className="text-white text-sm">Profile</p>
@@ -67,24 +76,30 @@ function ProfileCard({ user, deleteAccount, isOwner }) {
             </div>
           </div>
 
+          </>
+          )}
           <hr className="border-gray-700 my-4 mx-2" />
 
           <div>
             <h3 className="text-xs font-bold text-gray-400 mb-2">MEDIA</h3>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
-                <button className="flex bg-gray-700 text-white text-xs rounded-full px-3 w-34 py-1">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Social Link
-                </button>
               </div>
             </div>
+            {isOwner && (
+              <>
+              <button className="flex bg-gray-700 text-white text-xs rounded-full px-3 w-34 py-1 mt-2">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Social Link
+              </button>
+              </>
+              )}
           </div>
-
+        
           <hr className="border-gray-700 my-4 mx-2" />
 
           <div>
-            <h3 className="text-xs font-bold text-gray-400 mb-2">SHARE MY PROFILE</h3>
+            <h3 className="text-xs font-bold text-gray-400 mb-2">SHARE PROFILE</h3>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <button
@@ -96,7 +111,8 @@ function ProfileCard({ user, deleteAccount, isOwner }) {
               </div>
             </div>
           </div>
-
+        {isOwner && (
+        <>
           <hr className="border-gray-700 my-4 mx-2" />
 
           <div>

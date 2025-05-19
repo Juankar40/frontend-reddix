@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Trash, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Trash, Pencil, ThumbsUp, ThumbsDown } from "lucide-react";
 import { domain } from "../../context/domain";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { useAuth } from "../../context/authContext";
 
 const PostList = ({ posts, onDelete, isOwner }) => {
   const { currentUser } = useAuth(); // Obtiene el usuario logueado
-
+  const navigate = useNavigate()
   const deletePost = async (e, postId) => {
     e.preventDefault();
     e.stopPropagation();
@@ -48,7 +48,13 @@ const PostList = ({ posts, onDelete, isOwner }) => {
       }
     }
   };
-  console.log(posts)
+
+    const editPost = async (e, postId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/editPost/${postId}`)
+  
+  };
   return (
     <>
       {posts.length > 0 ? (
@@ -56,28 +62,37 @@ const PostList = ({ posts, onDelete, isOwner }) => {
           <div key={post._id}>
             <Link
               to={`/post/${post._id}`}
-              className="block rounded-md p-4 hover:bg-gray-800 w-[100%] flex flex-col justify-between"
+              className="rounded-md p-4 hover:bg-gray-800 w-[100%] flex flex-col justify-between"
             >
               <div className="relative rounded-md p-4 hover:bg-gray-800">
-              {currentUser?.username === post.author?.username && isOwner && (
-                  <button
-                    onClick={(e) => deletePost(e, post._id)}
-                    className="absolute right-4 top-4 gap-2 bg-[#2a3236] hover:bg-[#333D42] text-white font-bold px-2 py-2 rounded-2xl z-10"
-                    aria-label="Delete Post"
-                  >
-                    <Trash className="w-4 h-4" color="red" />
-                  </button>
+                {currentUser?.username === post.author?.username && isOwner && (
+                  <div className="absolute right-4 top-4 flex gap-2 z-10">
+                    <button
+                      onClick={(e) => deletePost(e, post._id)}
+                      className="bg-[#2a3236] hover:bg-[#333D42] text-white font-bold px-2 py-2 rounded-2xl"
+                      aria-label="Delete Post"
+                    >
+                      <Trash className="w-4 h-4" color="red" />
+                    </button>
+                    <button
+                      onClick={(e) => editPost(e, post._id)} // Asegúrate de tener esta función definida
+                      className="bg-[#2a3236] hover:bg-[#333D42] text-white font-bold px-2 py-2 rounded-2xl"
+                      aria-label="Edit Post"
+                    >
+                      <Pencil className="w-4 h-4" color="white" />
+                    </button>
+                  </div>
                 )}
-
+                {post?.file_url && (
                 <img
                   src={
-                    post.file_url
-                      ? `${domain}uploads/${post.file_url}`
-                      : "https://via.placeholder.com/150"
+                      `${domain}uploads/${post.file_url}`
                   }
                   alt={post.title}
                   className="w-18 h-18 rounded-md mb-2 float-left mr-2"
                 />
+                )}
+
                 <h3 className="text-xl text-[#B7CAD4] font-semibold">{post.title}</h3>
                 <p className="text-gray-400">{post.description}</p>
               </div>
